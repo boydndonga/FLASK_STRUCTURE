@@ -164,3 +164,21 @@ cat >> start.sh << EOF
 python3.6 manage.py server
 
 EOF
+
+# Creating manage file
+cat >> manage.py << EOF
+import unittest
+from app import create_app,db
+from flask_script import Manager,Server
+from app import create_app,db
+
+app = create_app('default')
+
+manager = Manager(app)
+
+manager.add_command('server', Server)
+
+if __name__ == '__main__':
+    manager.run()
+
+EOF
