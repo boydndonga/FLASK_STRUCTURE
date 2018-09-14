@@ -9,7 +9,7 @@ this is a script to every lazy developer or any other that seeks to save time cr
 
 ### make sure you are at its required level
 
-``` cd FLASK_STRUCTURE```
+``` $ cd FLASK_STRUCTURE```
 
 ### make it executable
 
@@ -17,6 +17,6 @@ this is a script to every lazy developer or any other that seeks to save time cr
 
 ### run it and respond to the prompts to have your desired configurations
 
-``` ./flaskApp.sh ```
+``` $ ./flaskApp.sh ```
 
 ![Sample Structure](flaskStructure.png)
