@@ -179,7 +179,7 @@ manage_without_db_and_shell(){
 
     cat >> manage.py << EOF
     from flask_script import Manager,Server
-    from app import create_app,db
+    from app import create_app
 
     app = create_app('default')
 
@@ -195,7 +195,6 @@ EOF
 manage_with_db_and_shell(){
     cat >> manage.py << EOF
     import unittest
-    from app import create_app,db
     from flask_script import Manager,Server
     from app import create_app,db
     from  flask_migrate import Migrate, MigrateCommand
@@ -242,31 +241,91 @@ cd ../
 
 # Creating application Folder
 cd app
-mkdir static templates static/css
-touch __init__.py models.py
+mkdir static templates static/css main
+touch __init__.py models.py main/__init__.py main/errors.py main/views.py
 
 # Adding information to __init__.py
-cat >> __init__.py << EOF
 
-from flask import Flask
-from config import config_options
-from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
+init_without_db(){
+    cat >> __init__.py << EOF
 
-
-bootstrap = Bootstrap()
-db = SQLAlchemy()
-
-def create_app(config_state):
-    app = Flask(__name__)
-    app.config.from_object(config_options[config_state])
+    from flask import Flask
+    from config import config_options
+    from flask_bootstrap import Bootstrap
+    from flask_sqlalchemy import SQLAlchemy
 
 
-    bootstrap.init_app(app)
-    db.init_app(app)
+    bootstrap = Bootstrap()
 
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    def create_app(config_state):
+        app = Flask(__name__)
+        app.config.from_object(config_options[config_state])
 
-    return app
+
+        bootstrap.init_app(app)
+
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
+
+
+        return app
 EOF
+}
+
+init_with_db(){
+     cat >> __init__.py << EOF
+
+    from flask import Flask
+    from config import config_options
+    from flask_bootstrap import Bootstrap
+    from flask_sqlalchemy import SQLAlchemy
+
+
+    bootstrap = Bootstrap()
+    db = SQLAlchemy()
+
+    def create_app(config_state):
+        app = Flask(__name__)
+        app.config.from_object(config_options[config_state])
+
+
+        bootstrap.init_app(app)
+        db.init_app(app)
+
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
+
+
+        return app
+EOF
+}
+
+init_with_db_authentication(){
+    cat >> __init__.py << EOF
+
+    from flask import Flask
+    from config import config_options
+    from flask_bootstrap import Bootstrap
+    from flask_sqlalchemy import SQLAlchemy
+
+
+    bootstrap = Bootstrap()
+    db = SQLAlchemy()
+
+    def create_app(config_state):
+        app = Flask(__name__)
+        app.config.from_object(config_options[config_state])
+
+
+        bootstrap.init_app(app)
+        db.init_app(app)
+
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
+
+        from .auth import auth as auth_blueprint
+        app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
+
+        return app
+EOF
+}
