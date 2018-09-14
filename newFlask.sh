@@ -23,6 +23,7 @@ touch config.py manage.py
 
 # populating config file
 cat >> config.py << EOF
+
 class Config:
     pass
 
