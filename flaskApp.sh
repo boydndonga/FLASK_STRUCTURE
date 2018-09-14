@@ -410,8 +410,8 @@ EOF
 # Creating initial commit
 git add . && git commit -m "Initial Commit"
 
-PS3='Please enter your choice: '
-options=("Option 1" "Option 2" "Option 3" "Quit")
+PS3='Please enter your choice editor to launch: '
+options=("Atom" "vscode" "pycharm" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
