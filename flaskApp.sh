@@ -158,3 +158,9 @@ class DevConfig(Config):
 config_options ={"production":ProdConfig,"default":DevConfig,"testing":TestConfig}
 
 EOF
+
+cat >> start.sh << EOF
+
+python3.6 manage.py server
+
+EOF
