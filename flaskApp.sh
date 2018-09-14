@@ -140,6 +140,9 @@ fi
 mkdir app tests
 touch config.py manage.py start.sh
 
+# make script executable
+chmod +x start.sh
+
 # populating config file
 cat >> config.py << EOF
 
@@ -331,7 +334,7 @@ init_with_db_authentication(){
     touch auth/views.py auth/__init__.py auth/forms.py
 
     reusable_main_blueprint
-    
+
     cat >> __init__.py << EOF
 
     from flask import Flask
