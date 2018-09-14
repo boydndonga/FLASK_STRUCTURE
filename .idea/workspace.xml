@@ -16,8 +16,8 @@
       <file leaf-file-name="newFlask.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/newFlask.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-16">
-              <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="112" selection-end-column="3" />
+            <state relative-caret-position="89">
+              <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="161" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -26,14 +26,19 @@
       <file leaf-file-name="flaskApp.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flaskApp.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="143" column="17" lean-forward="false" selection-start-line="143" selection-start-column="17" selection-end-line="143" selection-end-column="17" />
+            <state relative-caret-position="529">
+              <caret line="409" column="43" lean-forward="false" selection-start-line="409" selection-start-column="43" selection-end-line="409" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>start</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -146,16 +151,16 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/newFlask.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16">
-          <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="112" selection-end-column="3" />
+        <state relative-caret-position="89">
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="161" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/flaskApp.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="143" column="17" lean-forward="false" selection-start-line="143" selection-start-column="17" selection-end-line="143" selection-end-column="17" />
+        <state relative-caret-position="529">
+          <caret line="409" column="43" lean-forward="false" selection-start-line="409" selection-start-column="43" selection-end-line="409" selection-end-column="43" />
           <folding />
         </state>
       </provider>

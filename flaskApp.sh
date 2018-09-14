@@ -138,7 +138,7 @@ fi
 
 # Creating Root folders
 mkdir app tests
-touch config.py manage.py start.sh
+touch config.py manage.py start.sh requirements.txt
 
 # make script executable
 chmod +x start.sh
@@ -376,3 +376,35 @@ from . import auth
 from .. import db
 EOF
 }
+
+
+# Creating virtual environment
+python3.6 -m venv virtual
+
+# Activate virtual environment
+source virtual/bin/activate
+
+# Installing dependencies
+pip install flask
+pip install flask-script
+pip install flask-bootstrap
+pip install gunicorn
+pip install flask-wtf
+pip install flask-sqlalchemy
+
+pip freeze > requirements.txt
+
+
+# Getting requirements
+pip freeze > requirements.txt
+
+# Creating procfile
+touch Procfile
+
+# Configuring procfile
+cat >> Procfile << EOF
+web: gunicorn manage:app
+EOF
+
+# Creating initial commit
+git add . && git commit -m "Initial Commit"
