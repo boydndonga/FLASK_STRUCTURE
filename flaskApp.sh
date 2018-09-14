@@ -221,8 +221,8 @@ EOF
 echo "do you want to create db and shell context? [y/n]"
 read CONTEXT
 
-if [ "${CONTEXT^^}" == 'Y']; then
+if [ "${CONTEXT^^}" == 'Y' ]; then
     manage_with_db_and_shell
 else
-    manage_with_db_and_shell
+    manage_without_db_and_shell
 fi
