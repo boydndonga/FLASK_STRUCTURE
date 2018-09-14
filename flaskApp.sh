@@ -301,6 +301,9 @@ EOF
 }
 
 init_with_db_authentication(){
+    mkdir auth
+    touch auth/views.py auth/__init__.py auth/forms.py
+
     cat >> __init__.py << EOF
 
     from flask import Flask
@@ -327,5 +330,13 @@ init_with_db_authentication(){
         app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
 
         return app
+EOF
+
+cat >> auth/__init__.py << EOF
+from flask import Blueprint
+
+auth = Blueprint('auth',__name__)
+
+from . import views,forms
 EOF
 }
