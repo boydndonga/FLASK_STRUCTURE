@@ -228,14 +228,8 @@ EOF
 
 }
 
-echo "do you want to create db and shell context? [y/n]"
-read CONTEXT
+# vdckvndflkn dfbndvhdv vd
 
-if [ "${CONTEXT^^}" == 'Y' ]; then
-    manage_with_db_and_shell
-else
-    manage_without_db_and_shell
-fi
 
 # create init for tests
 cd tests
@@ -243,12 +237,12 @@ touch __init__.py
 cd ../
 
 # Creating application Folder
-cd app
-mkdir static templates static/css main
-touch __init__.py models.py main/__init__.py main/errors.py main/views.py
+#cd app
+mkdir app/static app/templates app/static/css app/main
+touch app/__init__.py app/models.py app/main/__init__.py app/main/errors.py app/main/views.py
 
 reusable_main_blueprint(){
-cat >> main/__init__.py << EOF
+cat >> app/main/__init__.py << EOF
 from flask import Blueprint
 
 main = Blueprint('main', __name__)
@@ -256,7 +250,7 @@ main = Blueprint('main', __name__)
 from . import views, error
 EOF
 
-cat >> main/views.py << EOF
+cat >> app/main/views.py << EOF
 from flask import render_template, request, redirect, url_for,abort
 from . import main
 from .. import db
@@ -267,13 +261,15 @@ def index():
 EOF
 
 }
+
+
 # Adding information to __init__.py
 
 init_with_bootstrap(){
 
     reusable_main_blueprint
 
-    cat >> __init__.py << EOF
+    cat >> app/__init__.py << EOF
 
     from flask import Flask
     from config import config_options
@@ -302,7 +298,7 @@ init_with_db(){
 
     reusable_main_blueprint
 
-     cat >> __init__.py << EOF
+     cat >> app/__init__.py << EOF
 
     from flask import Flask
     from config import config_options
@@ -330,40 +326,40 @@ EOF
 }
 
 init_with_db_authentication(){
-    mkdir auth
-    touch auth/views.py auth/__init__.py auth/forms.py
+mkdir app/auth
+touch app/auth/views.py app/auth/__init__.py app/auth/forms.py
 
-    reusable_main_blueprint
+reusable_main_blueprint
 
-    cat >> __init__.py << EOF
+cat >> app/__init__.py << EOF
 
-    from flask import Flask
-    from config import config_options
-    from flask_bootstrap import Bootstrap
-    from flask_sqlalchemy import SQLAlchemy
-
-
-    bootstrap = Bootstrap()
-    db = SQLAlchemy()
-
-    def create_app(config_state):
-        app = Flask(__name__)
-        app.config.from_object(config_options[config_state])
+from flask import Flask
+from config import config_options
+from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
 
 
-        bootstrap.init_app(app)
-        db.init_app(app)
+bootstrap = Bootstrap()
+db = SQLAlchemy()
 
-        from .main import main as main_blueprint
-        app.register_blueprint(main_blueprint)
+def create_app(config_state):
+    app = Flask(__name__)
+    app.config.from_object(config_options[config_state])
 
-        from .auth import auth as auth_blueprint
-        app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
 
-        return app
+    bootstrap.init_app(app)
+    db.init_app(app)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint,url_prefix = '/authenticate')
+
+    return app
 EOF
 
-cat >> auth/__init__.py << EOF
+cat >> app/auth/__init__.py << EOF
 from flask import Blueprint
 
 auth = Blueprint('auth',__name__)
@@ -371,12 +367,43 @@ auth = Blueprint('auth',__name__)
 from . import views,forms
 EOF
 
-cat >> auth/views.py << EOF
+cat >> app/auth/views.py << EOF
 from . import auth
 from .. import db
 EOF
 }
- cd ../
+
+PS3='Please enter your choice editor to launch: '
+options=("create with bootstrap only" "create with: bootstrap and db" "create with: bootstrap,db,authentication" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "create with bootstrap only")
+            echo "initializing app with bootstrap"
+            init_with_bootstrap
+            manage_without_db_and_shell
+            break
+            ;;
+        "create with: bootstrap and db")
+            echo "creating main blueprint with db"
+            init_with_db
+            manage_with_db_and_shell
+            break
+            ;;
+        "create with: bootstrap,db,authentication")
+            echo "creating main and auth blueprints with db"
+            init_with_db_authentication
+            manage_with_db_and_shell
+            break
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
+
+#cd ../
 
 # Creating virtual environment
 python3.6 -m venv virtual
@@ -410,6 +437,7 @@ EOF
 # Creating initial commit
 git add . && git commit -m "Initial Commit"
 
+
 PS3='Please enter your choice editor to launch: '
 options=("Atom" "vscode" "pycharm" "Quit")
 select opt in "${options[@]}"
@@ -417,17 +445,17 @@ do
     case $opt in
         "Atom")
             echo "opening atom"
-            atom .
+            atom . &
             break
             ;;
         "vscode")
             echo " Opening Vscode"
-            code .
+            code . &
             break
             ;;
         "pycharm")
             echo "opening pycharm"
-            pycharm.sh .
+            pycharm.sh . &
             break
             ;;
         "Quit")
