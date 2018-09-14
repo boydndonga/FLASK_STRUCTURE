@@ -247,6 +247,25 @@ touch __init__.py models.py main/__init__.py main/errors.py main/views.py
 # Adding information to __init__.py
 
 init_without_db(){
+
+cat >> main/__init__.py << EOF
+from flask import Blueprint
+
+main = Blueprint('main', __name__)
+
+from . import views, error
+EOF
+
+cat >> main/views.py << EOF
+from flask import render_template, request, redirect, url_for,abort
+from . import main
+from .. import db
+
+@main.route('/')
+def index():
+    return '<h1> Hello World </h1>'
+EOF
+
     cat >> __init__.py << EOF
 
     from flask import Flask
@@ -338,5 +357,10 @@ from flask import Blueprint
 auth = Blueprint('auth',__name__)
 
 from . import views,forms
+EOF
+
+cat >> auth/views.py << EOF
+from . import auth
+from .. import db
 EOF
 }
