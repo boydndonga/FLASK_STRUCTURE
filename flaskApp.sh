@@ -138,7 +138,7 @@ fi
 
 # Creating Root folders
 mkdir app tests
-touch config.py manage.py
+touch config.py manage.py start.sh
 
 # populating config file
 cat >> config.py << EOF
