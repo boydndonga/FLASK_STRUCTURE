@@ -8,10 +8,13 @@
 git init
 touch .gitignore
 echo "should i create a README? y/n"
-read answer
-if answer == y; then
+read ANSWER
+
+if [ "${ANSWER^^}" == 'Y' ]; then
     touch README.md
     echo "created README"
+else
+    echo "README not created"
 fi
 
 
