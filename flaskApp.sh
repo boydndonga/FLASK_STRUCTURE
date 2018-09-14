@@ -418,14 +418,17 @@ do
         "Atom")
             echo "opening atom"
             atom .
+            break
             ;;
         "vscode")
             echo " Opening Vscode"
             code .
+            break
             ;;
         "pycharm")
             echo "opening pycharm"
             pycharm.sh .
+            break
             ;;
         "Quit")
             break
