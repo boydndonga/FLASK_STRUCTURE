@@ -7,6 +7,15 @@
 # Initializing  git
 git init
 touch .gitignore
+cat >> .gitignore << EOF
+
+virtual/
+*.pyc
+start.sh
+
+EOF
+
+# Initializing Readme
 echo "should i create a README? y/n"
 read ANSWER
 
@@ -16,12 +25,3 @@ if [ "${ANSWER^^}" == 'Y' ]; then
 else
     echo "README not created"
 fi
-
-
-cat >> .gitignore << EOF
-
-virtual/
-*.pyc
-start.sh
-
-EOF
