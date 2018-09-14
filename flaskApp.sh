@@ -415,14 +415,17 @@ options=("Atom" "vscode" "pycharm" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
-        "Option 1")
-            echo "you chose choice 1"
+        "Atom")
+            echo "opening atom"
+            atom .
             ;;
-        "Option 2")
-            echo "you chose choice 2"
+        "vscode")
+            echo " Opening Vscode"
+            code .
             ;;
-        "Option 3")
-            echo "you chose choice $REPLY which is $opt"
+        "pycharm")
+            echo "opening pycharm"
+            pycharm.sh .
             ;;
         "Quit")
             break
