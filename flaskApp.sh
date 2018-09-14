@@ -168,10 +168,24 @@ EOF
 
 # Creating manage file
 
-echo "do you want to create db and shell context? [y/n]"
-read CONTEXT
+manage_without_db_and_shell(){
 
-if [ "${CONTEXT^^}" == 'Y']; then
+    cat >> manage.py << EOF
+    from flask_script import Manager,Server
+    from app import create_app,db
+
+    app = create_app('default')
+
+    manager = Manager(app)
+
+    manager.add_command('server', Server)
+
+    if __name__ == '__main__':
+        manager.run()
+EOF
+}
+
+manage_with_db_and_shell(){
     cat >> manage.py << EOF
     import unittest
     from app import create_app,db
@@ -202,19 +216,13 @@ if [ "${CONTEXT^^}" == 'Y']; then
         manager.run()
 
 EOF
+}
+
+echo "do you want to create db and shell context? [y/n]"
+read CONTEXT
+
+if [ "${CONTEXT^^}" == 'Y']; then
+    manage_with_db_and_shell
 else
-    cat >> manage.py << EOF
-    from flask_script import Manager,Server
-    from app import create_app,db
-
-    app = create_app('default')
-
-    manager = Manager(app)
-
-    manager.add_command('server', Server)
-
-    if __name__ == '__main__':
-        manager.run()
-
-EOF
+    manage_with_db_and_shell
 fi
