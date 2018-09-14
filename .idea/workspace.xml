@@ -26,8 +26,8 @@
       <file leaf-file-name="flaskApp.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flaskApp.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="599">
-              <caret line="170" column="29" lean-forward="false" selection-start-line="170" selection-start-column="29" selection-end-line="170" selection-end-column="29" />
+            <state relative-caret-position="389">
+              <caret line="180" column="40" lean-forward="false" selection-start-line="180" selection-start-column="40" selection-end-line="180" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -154,8 +154,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/flaskApp.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="599">
-          <caret line="170" column="29" lean-forward="false" selection-start-line="170" selection-start-column="29" selection-end-line="170" selection-end-column="29" />
+        <state relative-caret-position="389">
+          <caret line="180" column="40" lean-forward="false" selection-start-line="180" selection-start-column="40" selection-end-line="180" selection-end-column="40" />
           <folding />
         </state>
       </provider>
