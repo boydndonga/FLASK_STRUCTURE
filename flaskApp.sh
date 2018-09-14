@@ -159,12 +159,19 @@ config_options ={"production":ProdConfig,"default":DevConfig,"testing":TestConfi
 
 EOF
 
+# Creating start.sh content
 cat >> start.sh << EOF
 
 python3.6 manage.py server
 
 EOF
 
+
+cat >> start.sh << EOF
+
+python3.6 manage.py server
+
+EOF
 
 # Creating manage file
 
@@ -216,6 +223,7 @@ manage_with_db_and_shell(){
         manager.run()
 
 EOF
+
 }
 
 echo "do you want to create db and shell context? [y/n]"
@@ -226,3 +234,8 @@ if [ "${CONTEXT^^}" == 'Y' ]; then
 else
     manage_without_db_and_shell
 fi
+
+# create init for tests
+cd tests
+touch __init__.py
+cd ../
