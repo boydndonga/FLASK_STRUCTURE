@@ -165,32 +165,56 @@ python3.6 manage.py server
 
 EOF
 
+
 # Creating manage file
-cat >> manage.py << EOF
-import unittest
-from app import create_app,db
-from flask_script import Manager,Server
-from app import create_app,db
-from  flask_migrate import Migrate, MigrateCommand
 
-app = create_app('default')
+echo "do you want to create db and shell context? [y/n]"
+read CONTEXT
 
-manager = Manager(app)
-migrate = Migrate(app,db)
-manager.add_command('server', Server)
-manager.add_command('db',MigrateCommand)
+if [ "${CONTEXT^^}" == 'Y']; then
+    cat >> manage.py << EOF
+    import unittest
+    from app import create_app,db
+    from flask_script import Manager,Server
+    from app import create_app,db
+    from  flask_migrate import Migrate, MigrateCommand
 
-@manager.command
-def test():
-    """Run the unit tests."""
-    tests = unittest.TestLoader().discover('tests')
-    unittest.TextTestRunner(verbosity=2).run(tests)
+    app = create_app('default')
 
-@manager.shell
-def make_shell_context():
-    return dict(app = app,db = db)
+    manager = Manager(app)
+    migrate = Migrate(app,db)
+    manager.add_command('server', Server)
+    manager.add_command('db',MigrateCommand)
 
-if __name__ == '__main__':
-    manager.run()
+    @manager.command
+    def test():
+        """Run the unit tests."""
+        tests = unittest.TestLoader().discover('tests')
+        unittest.TextTestRunner(verbosity=2).run(tests)
+
+
+    @manager.shell
+    def make_shell_context():
+        return dict(app = app,db = db)
+
+
+    if __name__ == '__main__':
+        manager.run()
 
 EOF
+else
+    cat >> manage.py << EOF
+    from flask_script import Manager,Server
+    from app import create_app,db
+
+    app = create_app('default')
+
+    manager = Manager(app)
+
+    manager.add_command('server', Server)
+
+    if __name__ == '__main__':
+        manager.run()
+
+EOF
+fi
