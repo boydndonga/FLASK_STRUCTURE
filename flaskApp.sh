@@ -376,7 +376,7 @@ from . import auth
 from .. import db
 EOF
 }
-
+ cd ../
 
 # Creating virtual environment
 python3.6 -m venv virtual
