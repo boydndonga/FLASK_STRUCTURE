@@ -244,10 +244,7 @@ cd app
 mkdir static templates static/css main
 touch __init__.py models.py main/__init__.py main/errors.py main/views.py
 
-# Adding information to __init__.py
-
-init_without_db(){
-
+reusable_main_blueprint(){
 cat >> main/__init__.py << EOF
 from flask import Blueprint
 
@@ -265,6 +262,13 @@ from .. import db
 def index():
     return '<h1> Hello World </h1>'
 EOF
+
+}
+# Adding information to __init__.py
+
+init_with_bootstrap(){
+
+    reusable_main_blueprint
 
     cat >> __init__.py << EOF
 
@@ -292,6 +296,9 @@ EOF
 }
 
 init_with_db(){
+
+    reusable_main_blueprint
+
      cat >> __init__.py << EOF
 
     from flask import Flask
@@ -323,6 +330,8 @@ init_with_db_authentication(){
     mkdir auth
     touch auth/views.py auth/__init__.py auth/forms.py
 
+    reusable_main_blueprint
+    
     cat >> __init__.py << EOF
 
     from flask import Flask
