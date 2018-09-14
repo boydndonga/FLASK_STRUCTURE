@@ -5,11 +5,11 @@ this is a script to every lazy developer or any other that seeks to save time cr
 
 ### clone this repository
 
-``` $ git clone ```
+``` $ git clone https://github.com/boydndonga/FLASK_STRUCTURE.git ```
 
 ### make sure you are at its required level
 
-``` cd <reponame>```
+``` cd FLASK_STRUCTURE```
 
 ### make it executable
 
