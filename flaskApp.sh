@@ -180,55 +180,53 @@ EOF
 
 manage_without_db_and_shell(){
 
-    cat >> manage.py << EOF
-    from flask_script import Manager,Server
-    from app import create_app
+cat >> manage.py << EOF
+from flask_script import Manager,Server
+from app import create_app
 
-    app = create_app('default')
+app = create_app('default')
 
-    manager = Manager(app)
+manager = Manager(app)
 
-    manager.add_command('server', Server)
+manager.add_command('server', Server)
 
-    if __name__ == '__main__':
-        manager.run()
+if __name__ == '__main__':
+    manager.run()
 EOF
 }
 
 manage_with_db_and_shell(){
-    cat >> manage.py << EOF
-    import unittest
-    from flask_script import Manager,Server
-    from app import create_app,db
-    from  flask_migrate import Migrate, MigrateCommand
+cat >> manage.py << EOF
+import unittest
+from flask_script import Manager,Server
+from app import create_app,db
+from  flask_migrate import Migrate, MigrateCommand
 
-    app = create_app('default')
+app = create_app('default')
 
-    manager = Manager(app)
-    migrate = Migrate(app,db)
-    manager.add_command('server', Server)
-    manager.add_command('db',MigrateCommand)
+manager = Manager(app)
+migrate = Migrate(app,db)
+manager.add_command('server', Server)
+manager.add_command('db',MigrateCommand)
 
-    @manager.command
-    def test():
-        """Run the unit tests."""
-        tests = unittest.TestLoader().discover('tests')
-        unittest.TextTestRunner(verbosity=2).run(tests)
-
-
-    @manager.shell
-    def make_shell_context():
-        return dict(app = app,db = db)
+@manager.command
+def test():
+    """Run the unit tests."""
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
 
 
-    if __name__ == '__main__':
-        manager.run()
+@manager.shell
+def make_shell_context():
+    return dict(app = app,db = db)
+
+
+if __name__ == '__main__':
+    manager.run()
 
 EOF
 
 }
-
-# vdckvndflkn dfbndvhdv vd
 
 
 # create init for tests
@@ -267,61 +265,61 @@ EOF
 
 init_with_bootstrap(){
 
-    reusable_main_blueprint
+reusable_main_blueprint
 
-    cat >> app/__init__.py << EOF
+cat >> app/__init__.py << EOF
 
-    from flask import Flask
-    from config import config_options
-    from flask_bootstrap import Bootstrap
-    from flask_sqlalchemy import SQLAlchemy
-
-
-    bootstrap = Bootstrap()
-
-    def create_app(config_state):
-        app = Flask(__name__)
-        app.config.from_object(config_options[config_state])
+from flask import Flask
+from config import config_options
+from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
 
 
-        bootstrap.init_app(app)
+bootstrap = Bootstrap()
 
-        from .main import main as main_blueprint
-        app.register_blueprint(main_blueprint)
+def create_app(config_state):
+    app = Flask(__name__)
+    app.config.from_object(config_options[config_state])
 
 
-        return app
+    bootstrap.init_app(app)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+
+    return app
 EOF
 }
 
 init_with_db(){
 
-    reusable_main_blueprint
+reusable_main_blueprint
 
-     cat >> app/__init__.py << EOF
+cat >> app/__init__.py << EOF
 
-    from flask import Flask
-    from config import config_options
-    from flask_bootstrap import Bootstrap
-    from flask_sqlalchemy import SQLAlchemy
-
-
-    bootstrap = Bootstrap()
-    db = SQLAlchemy()
-
-    def create_app(config_state):
-        app = Flask(__name__)
-        app.config.from_object(config_options[config_state])
+from flask import Flask
+from config import config_options
+from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
 
 
-        bootstrap.init_app(app)
-        db.init_app(app)
+bootstrap = Bootstrap()
+db = SQLAlchemy()
 
-        from .main import main as main_blueprint
-        app.register_blueprint(main_blueprint)
+def create_app(config_state):
+    app = Flask(__name__)
+    app.config.from_object(config_options[config_state])
 
 
-        return app
+    bootstrap.init_app(app)
+    db.init_app(app)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+
+    return app
 EOF
 }
 
@@ -403,7 +401,6 @@ do
     esac
 done
 
-#cd ../
 
 # Creating virtual environment
 python3.6 -m venv virtual
