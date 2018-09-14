@@ -135,3 +135,23 @@ if [ "${ANSWER^^}" == 'Y' ]; then
 else
     echo "README not created"
 fi
+
+# Creating Root folders
+mkdir app tests
+touch config.py manage.py
+
+# populating config file
+cat >> config.py << EOF
+
+class Config:
+    pass
+
+class ProdConfig(Config):
+    pass
+
+class DevConfig(Config):
+    DEBUG = True
+
+config_options ={"production":ProdConfig,"default":DevConfig}
+
+EOF
