@@ -404,6 +404,7 @@ touch Procfile
 # Configuring procfile
 cat >> Procfile << EOF
 web: gunicorn manage:app
+
 EOF
 
 # Creating initial commit
