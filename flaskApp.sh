@@ -435,7 +435,7 @@ EOF
 git add . && git commit -m "Initial Commit"
 
 
-PS3='Please enter your choice editor to launch: '
+PS3='Please enter your choice editor to launch from above options: '
 options=("Atom" "vscode" "pycharm" "Quit")
 select opt in "${options[@]}"
 do
