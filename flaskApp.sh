@@ -233,7 +233,7 @@ cd ../
 # Creating application Folder
 #cd app
 mkdir app/static app/templates app/static/css app/main
-touch app/__init__.py app/models.py app/main/__init__.py app/main/errors.py app/main/views.py
+touch app/__init__.py app/models.py app/main/__init__.py app/main/errors.py app/main/views.py app/main/forms.py
 
 reusable_main_blueprint(){
 cat >> app/main/__init__.py << EOF
@@ -252,6 +252,12 @@ from .. import db
 @main.route('/')
 def index():
     return '<h1> Hello World </h1>'
+EOF
+
+cat >> app/main/forms.py << EOF
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField, SubmitField
+from wtforms.validators import Required
 EOF
 
 }
