@@ -424,9 +424,7 @@ pip install flask-bootstrap
 pip install gunicorn
 pip install flask-wtf
 pip install flask-sqlalchemy
-
-pip freeze > requirements.txt
-
+pip install Flask-Migrate
 
 # Getting requirements
 pip freeze > requirements.txt
