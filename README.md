@@ -26,5 +26,7 @@ create with bootstrap only | initialize bootstrap for use in the app
 create with: bootstrap and db | initialize bootstrap and SQLAlchemy in your app
 create with: bootstrap,db,authentication | initialize bootstrap, SQLAlchemy and auth blueprnt in your app
 
+### Disclaimer
+In the start.sh file it has been set to run on python3.6, change this to your python version
 
 ![Sample Structure](flaskStructure.png)
