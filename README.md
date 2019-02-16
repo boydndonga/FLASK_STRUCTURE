@@ -19,5 +19,12 @@ this is a script to every lazy developer or any other that seeks to save time cr
 
 ``` $ ./flaskApp.sh ```
 
+| *Option* | *Output* 
+--- | --- 
+Should i create a README? | creates a README.md file
+create with bootstrap only | initialize bootstrap for use in the app
+create with: bootstrap and db | initialize bootstrap and SQLAlchemy in your app
+create with: bootstrap,db,authentication | initialize bootstrap, SQLAlchemy and auth blueprnt in your app
+
 
 ![Sample Structure](flaskStructure.png)
