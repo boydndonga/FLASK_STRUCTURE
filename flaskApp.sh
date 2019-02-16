@@ -170,12 +170,6 @@ python3.6 manage.py server
 EOF
 
 
-cat >> start.sh << EOF
-
-python3.6 manage.py server
-
-EOF
-
 # Creating manage file
 
 manage_without_db_and_shell(){
