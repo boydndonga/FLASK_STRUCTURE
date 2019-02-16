@@ -108,6 +108,8 @@ venv.bak/
 virt/
 .virt/
 
+# vscode
+.vscode/
 
 # Spyder project settings
 .spyderproject
