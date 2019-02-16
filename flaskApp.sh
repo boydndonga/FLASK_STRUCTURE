@@ -425,6 +425,7 @@ pip install gunicorn
 pip install flask-wtf
 pip install flask-sqlalchemy
 pip install Flask-Migrate
+pip install psycopg2
 
 # Getting requirements
 pip freeze > requirements.txt
