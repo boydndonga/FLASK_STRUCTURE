@@ -371,6 +371,13 @@ cat >> app/auth/views.py << EOF
 from . import auth
 from .. import db
 EOF
+
+cat >> app/auth/forms.py << EOF
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField, SubmitField, PasswordField
+from wtforms.validators import Required
+EOF
+
 }
 
 PS3='Please enter your choice editor to launch: '
