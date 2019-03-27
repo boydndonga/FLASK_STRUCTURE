@@ -28,5 +28,6 @@ create with: bootstrap,db,authentication | initialize bootstrap, SQLAlchemy and 
 
 ### Disclaimer
 In the start.sh file it has been set to run on python3.6, change this to your python version
+This script doesnt create a database for you ,it just installs the neccesary packages required to integrate a db seamlessly in the app
 
 ![Sample Structure](flaskStructure.png)
