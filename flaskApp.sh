@@ -412,7 +412,7 @@ done
 
 
 # Creating virtual environment
-python3 -m venv virtual
+python3 -m virtualenv virtual
 
 # Activate virtual environment
 source virtual/bin/activate
