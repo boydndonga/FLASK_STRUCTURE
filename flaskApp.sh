@@ -497,7 +497,7 @@ main() {
   initial_setup
 
 
-  bold 'Please enter your choice editor to launch: '
+  bold 'Please enter one of the options below to create your project: '
 options=("create with bootstrap only" "create with: bootstrap and db" "create with: bootstrap,db,authentication" "Quit")
 select opt in "${options[@]}"
 do
