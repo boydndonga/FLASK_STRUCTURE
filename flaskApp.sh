@@ -434,26 +434,29 @@ do
     esac
 done
 
+if command -v "python3" >/dev/null 2>&1; then
+    error "python does not exist. Cannot install requirements!"
 
-# Creating virtual environment
-python3 -m virtualenv virtual
+    else
+    # Creating virtual environment
+    python3 -m virtualenv virtual
+    echo "activating virtual environment"
+    # Activate virtual environment
+    source virtual/bin/activate
+    echo "installing requirements"
+    # Installing dependencies
+    pip install flask
+    pip install flask-script
+    pip install flask-bootstrap
+    pip install gunicorn
+    pip install flask-wtf
+    pip install flask-sqlalchemy
+    pip install Flask-Migrate
+    pip install psycopg2-binary
 
-# Activate virtual environment
-source virtual/bin/activate
-
-# Installing dependencies
-pip install flask
-pip install flask-script
-pip install flask-bootstrap
-pip install gunicorn
-pip install flask-wtf
-pip install flask-sqlalchemy
-pip install Flask-Migrate
-pip install psycopg2-binary
-
-# Getting requirements
+    # Getting requirements
 pip freeze > requirements.txt
-
+fi
 # Creating procfile
 touch Procfile
 
@@ -464,11 +467,15 @@ web: gunicorn manage:app
 EOF
 
 # Creating initial commit
-git add . && git commit -m "Initial Commit"
+if command -v "git" >/dev/null 2>&1; then
+    error "git is not installed! Initial commit will not be made!"
 
+    else
+    git add . && git commit -m "Initial Commit"
+fi
 
 PS3='Please enter your choice editor to launch from above options: '
-options=("Atom" "vscode" "pycharm" "Quit")
+options=("Atom" "vscode" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -480,11 +487,6 @@ do
         "vscode")
             echo " Opening Vscode"
             code . &
-            break
-            ;;
-        "pycharm")
-            echo "opening pycharm"
-            pycharm.sh . &
             break
             ;;
         "Quit")
