@@ -230,7 +230,7 @@ cd ../
 
 # Creating application Folder
 #cd app
-mkdir -p app/static app/templates app/static/css app/main
+mkdir -p app/static app/templates app/static/css app/main app/static/js app/static/img
 touch app/__init__.py app/models.py app/main/__init__.py app/main/errors.py app/main/views.py app/main/forms.py
 }
 
