@@ -2,7 +2,7 @@
 This is a script for every lazy developer or any other that seeks to save time creating the whole flask structure.
 
 ## SETUP
-### Prerequisites
+### Prerequisites (not required, just good to have)
 1. Python3
 2. Virtualenv
 3. Git
