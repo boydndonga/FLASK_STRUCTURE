@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-read -r -p "What is your flask project name?" PROJECT_NAME
+read -r -p "What is your flask project name? " PROJECT_NAME
 
 mkdir $PROJECT_NAME
 
 cd $PROJECT_NAME || exit
 
 # Check if git is installed
-if command -v "git" >/dev/null 2>&1; then
-    error "git is not installed and will not be initialized!"
+if command -v git ; then
+    echo "git is not installed and will not be initialized!"
 
     else
       echo "initializing git and creating .gitignore"
@@ -140,11 +140,12 @@ fi
 echo "should i create a README? y/n"
 read ANSWER
 
-if [ "${ANSWER^^}" == 'Y' ]; then
+if [[ ! $ANSWER =~ ^[Yy]$ ]]; then
+    echo "README not created"
+
+else
     touch README.md
     echo "created README"
-else
-    echo "README not created"
 fi
 
 # Creating Root folders
@@ -434,7 +435,7 @@ do
     esac
 done
 
-if command -v "python3" >/dev/null 2>&1; then
+if command -v python3 ; then
     error "python does not exist. Cannot install requirements!"
 
     else
@@ -467,7 +468,7 @@ web: gunicorn manage:app
 EOF
 
 # Creating initial commit
-if command -v "git" >/dev/null 2>&1; then
+if command -v git ; then
     error "git is not installed! Initial commit will not be made!"
 
     else
