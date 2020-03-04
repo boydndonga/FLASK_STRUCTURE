@@ -1,22 +1,51 @@
 #!/usr/bin/env bash
 
+setup_color() {
+	# Only use colors if connected to a terminal
+	if [ -t 1 ]; then
+		RED=$(printf '\033[31m')
+		GREEN=$(printf '\033[32m')
+		YELLOW=$(printf '\033[33m')
+		BLUE=$(printf '\033[34m')
+		BOLD=$(printf '\033[1m')
+		RESET=$(printf '\033[m')
+	else
+		RED=""
+		GREEN=""
+		YELLOW=""
+		BLUE=""
+		BOLD=""
+		RESET=""
+	fi
+}
+
+error() {
+	echo ${RED}"$@"${RESET} >&2
+}
+
+success() {
+	echo ${GREEN}"$@"${RESET} >&2
+}
+
+bold() {
+  echo ${BOLD}"$@"${RESET} >&2
+}
+
+initial_setup() {
 read -r -p "What is your flask project name? " PROJECT_NAME
 
 mkdir $PROJECT_NAME
 
 cd $PROJECT_NAME || exit
 
-command_exists() {
-	command -v "$@" >/dev/null 2>&1
-}
 
 # Check if git is installed
 if ! command -v git | grep -q 'git' ; then
-    echo "git is not installed and will not be initialized!"
+    error "git is not installed and will not be initialized!"
 
     else
-  git init
-        echo "creating .gitignore"
+    git init
+    echo "creating .gitignore"
 
   touch .gitignore
 cat >> .gitignore << EOF
@@ -138,21 +167,21 @@ virt/
 
 
 EOF
-  echo "creating .gitignore done"
+  success "creating .gitignore done"
 
 fi
 
 
 # Initializing Readme
-echo "should I create a README? y/n"
+bold "should I create a README? y/n:"
 read ANSWER
 
 if [[ ! $ANSWER =~ ^[Yy]$ ]]; then
-    echo "README not created"
+    error "README not created"
 
 else
     touch README.md
-    echo "created README"
+    success "created README"
 
     cat >> README.md << EOF
 
@@ -194,6 +223,16 @@ python3.6 manage.py server
 
 EOF
 
+# create init for tests
+cd tests || exit
+touch __init__.py
+cd ../
+
+# Creating application Folder
+#cd app
+mkdir -p app/static app/templates app/static/css app/main
+touch app/__init__.py app/models.py app/main/__init__.py app/main/errors.py app/main/views.py app/main/forms.py
+}
 
 # Creating manage file
 
@@ -212,7 +251,7 @@ manager.add_command('server', Server)
 if __name__ == '__main__':
     manager.run()
 EOF
- echo "creating with manage without db and shell done"
+ success "creating with manage without db and shell done"
 
 }
 
@@ -248,20 +287,9 @@ if __name__ == '__main__':
     manager.run()
 
 EOF
-   echo "creating with manage with db and shell done"
+   success "creating with manage with db and shell done"
 
 }
-
-
-# create init for tests
-cd tests || exit
-touch __init__.py
-cd ../
-
-# Creating application Folder
-#cd app
-mkdir -p app/static app/templates app/static/css app/main
-touch app/__init__.py app/models.py app/main/__init__.py app/main/errors.py app/main/views.py app/main/forms.py
 
 reusable_main_blueprint(){
 cat >> app/main/__init__.py << EOF
@@ -290,9 +318,7 @@ EOF
 
 }
 
-
 # Adding information to __init__.py
-
 init_with_bootstrap(){
   echo "init with bootstrap"
 
@@ -321,7 +347,7 @@ def create_app(config_state):
 
     return app
 EOF
-echo "init with bootstrap done"
+success "init with bootstrap done"
 }
 
 init_with_db(){
@@ -355,7 +381,7 @@ def create_app(config_state):
     return app
 EOF
 
-echo "init with db done"
+success "init with db done"
 }
 
 init_with_db_authentication(){
@@ -412,49 +438,18 @@ from wtforms import StringField, TextAreaField, SubmitField, PasswordField
 from wtforms.validators import Required
 EOF
 
-echo "init with db authentication done"
+success "init with db authentication done"
 }
 
-PS3='Please enter your choice editor to launch: '
-options=("create with bootstrap only" "create with: bootstrap and db" "create with: bootstrap,db,authentication" "Quit")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "create with bootstrap only")
-            echo "initializing app with bootstrap"
-            init_with_bootstrap
-            manage_without_db_and_shell
-            echo "done"
-            break
-            ;;
-        "create with: bootstrap and db")
-            echo "creating main blueprint with db"
-            init_with_db
-            manage_with_db_and_shell
-            echo "done"
-            break
-            ;;
-        "create with: bootstrap,db,authentication")
-            echo "creating main and auth blueprints with db"
-            init_with_db_authentication
-            manage_with_db_and_shell
-            echo "done"
-            break
-            ;;
-        "Quit")
-            break
-            ;;
-        *) echo "invalid option $REPLY";;
-    esac
-done
-
+install_requirements() {
 if ! command -v python3 | grep -q 'python3'; then
     error "python does not exist. Cannot install requirements!"
 
     else
+    echo "creating virtual environment"
     # Creating virtual environment
     python3 -m virtualenv virtual
-    echo "activating virtual environment"
+    success "activating virtual environment"
     # Activate virtual environment
     source virtual/bin/activate
     echo "installing requirements"
@@ -468,6 +463,8 @@ if ! command -v python3 | grep -q 'python3'; then
     pip install Flask-Migrate
     pip install psycopg2-binary
 
+    success "installing requirements"
+
     # Getting requirements
     pip freeze > requirements.txt
 fi
@@ -479,7 +476,9 @@ cat >> Procfile << EOF
 web: gunicorn manage:app
 
 EOF
+}
 
+wrap_up() {
 # Creating initial commit
 if ! command -v git | grep -q 'git'; then
     error "git is not installed! Initial commit will not be made!"
@@ -489,5 +488,50 @@ if ! command -v git | grep -q 'git'; then
 fi
 
 echo
-echo "finished setting up your project: " $PROJECT_NAME
+	echo "${BLUE}Finished setting up your project ${PROJECT_NAME}...${RESET}"
 exit 1
+}
+
+main() {
+  setup_color
+  initial_setup
+
+
+  bold 'Please enter your choice editor to launch: '
+options=("create with bootstrap only" "create with: bootstrap and db" "create with: bootstrap,db,authentication" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "create with bootstrap only")
+            echo "initializing app with bootstrap"
+            init_with_bootstrap
+            manage_without_db_and_shell
+            success "done"
+            break
+            ;;
+        "create with: bootstrap and db")
+            echo "creating main blueprint with db"
+            init_with_db
+            manage_with_db_and_shell
+            success "done"
+            break
+            ;;
+        "create with: bootstrap,db,authentication")
+            echo "creating main and auth blueprints with db"
+            init_with_db_authentication
+            manage_with_db_and_shell
+            success "done"
+            break
+            ;;
+        "Quit")
+            break
+            ;;
+        *) error "invalid option $REPLY";;
+    esac
+done
+
+install_requirements
+wrap_up
+}
+
+main "$@"
