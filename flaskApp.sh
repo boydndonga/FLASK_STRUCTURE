@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
+read -r -p "What is your flask project name?" PROJECT_NAME
 
-# Creating new app
+mkdir $PROJECT_NAME
 
+cd $PROJECT_NAME || exit
 
-# Initializing  git
-git init
-touch .gitignore
+# Check if git is installed
+if command -v "git" >/dev/null 2>&1; then
+    error "git is not installed and will not be initialized!"
+
+    else
+      echo "initializing git and creating .gitignore"
+  git init
+  touch .gitignore
 cat >> .gitignore << EOF
 
 # Byte-compiled / optimized / DLL files
@@ -126,6 +133,8 @@ virt/
 
 
 EOF
+fi
+
 
 # Initializing Readme
 echo "should i create a README? y/n"
@@ -175,7 +184,7 @@ EOF
 # Creating manage file
 
 manage_without_db_and_shell(){
-
+ echo "creating with manage without db and shell"
 cat >> manage.py << EOF
 from flask_script import Manager,Server
 from app import create_app
@@ -189,9 +198,13 @@ manager.add_command('server', Server)
 if __name__ == '__main__':
     manager.run()
 EOF
+ echo "creating with manage without db and shell done"
+
 }
 
 manage_with_db_and_shell(){
+   echo "creating with manage with db and shell"
+
 cat >> manage.py << EOF
 import unittest
 from flask_script import Manager,Server
@@ -221,18 +234,19 @@ if __name__ == '__main__':
     manager.run()
 
 EOF
+   echo "creating with manage with db and shell done"
 
 }
 
 
 # create init for tests
-cd tests
+cd tests || exit
 touch __init__.py
 cd ../
 
 # Creating application Folder
 #cd app
-mkdir app/static app/templates app/static/css app/main
+mkdir -p app/static app/templates app/static/css app/main
 touch app/__init__.py app/models.py app/main/__init__.py app/main/errors.py app/main/views.py app/main/forms.py
 
 reusable_main_blueprint(){
@@ -266,6 +280,7 @@ EOF
 # Adding information to __init__.py
 
 init_with_bootstrap(){
+  echo "init with bootstrap"
 
 reusable_main_blueprint
 
@@ -292,9 +307,11 @@ def create_app(config_state):
 
     return app
 EOF
+echo "init with bootstrap done"
 }
 
 init_with_db(){
+  echo "init with db"
 
 reusable_main_blueprint
 
@@ -323,10 +340,13 @@ def create_app(config_state):
 
     return app
 EOF
+
+echo "init with db done"
 }
 
 init_with_db_authentication(){
-mkdir app/auth
+  echo "init with db authentication"
+mkdir -p app/auth
 touch app/auth/views.py app/auth/__init__.py app/auth/forms.py
 
 reusable_main_blueprint
@@ -378,6 +398,7 @@ from wtforms import StringField, TextAreaField, SubmitField, PasswordField
 from wtforms.validators import Required
 EOF
 
+echo "init with db authentication done"
 }
 
 PS3='Please enter your choice editor to launch: '
@@ -389,18 +410,21 @@ do
             echo "initializing app with bootstrap"
             init_with_bootstrap
             manage_without_db_and_shell
+            echo "done"
             break
             ;;
         "create with: bootstrap and db")
             echo "creating main blueprint with db"
             init_with_db
             manage_with_db_and_shell
+            echo "done"
             break
             ;;
         "create with: bootstrap,db,authentication")
             echo "creating main and auth blueprints with db"
             init_with_db_authentication
             manage_with_db_and_shell
+            echo "done"
             break
             ;;
         "Quit")
@@ -425,7 +449,7 @@ pip install gunicorn
 pip install flask-wtf
 pip install flask-sqlalchemy
 pip install Flask-Migrate
-pip install psycopg2
+pip install psycopg2-binary
 
 # Getting requirements
 pip freeze > requirements.txt
