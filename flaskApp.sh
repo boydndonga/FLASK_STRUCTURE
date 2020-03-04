@@ -144,7 +144,7 @@ fi
 
 
 # Initializing Readme
-echo "should i create a README? y/n"
+echo "should I create a README? y/n"
 read ANSWER
 
 if [[ ! $ANSWER =~ ^[Yy]$ ]]; then
@@ -153,6 +153,12 @@ if [[ ! $ANSWER =~ ^[Yy]$ ]]; then
 else
     touch README.md
     echo "created README"
+
+    cat >> README.md << EOF
+
+## Enter title here
+### Enter description here
+EOF
 fi
 
 # Creating Root folders
@@ -463,7 +469,7 @@ if ! command -v python3 | grep -q 'python3'; then
     pip install psycopg2-binary
 
     # Getting requirements
-pip freeze > requirements.txt
+    pip freeze > requirements.txt
 fi
 # Creating procfile
 touch Procfile
@@ -482,24 +488,6 @@ if ! command -v git | grep -q 'git'; then
     git add . && git commit -m "Initial Commit"
 fi
 
-PS3='Please enter your choice editor to launch from above options: '
-options=("Atom" "vscode" "Quit")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Atom")
-            echo "opening atom"
-            atom . &
-            break
-            ;;
-        "vscode")
-            echo " Opening Vscode"
-            code . &
-            break
-            ;;
-        "Quit")
-            break
-            ;;
-        *) echo "invalid option $REPLY";;
-    esac
-done
+echo
+echo "finished setting up your project: " $PROJECT_NAME
+exit 1
