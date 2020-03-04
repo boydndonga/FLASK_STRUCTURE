@@ -1,5 +1,5 @@
 # FLASK_STRUCTURE
-this is a script to every lazy developer or any other that seeks to save time creating the whole flask structure
+This is a script for every lazy developer or any other that seeks to save time creating the whole flask structure.
 
 ## SETUP
 ### Prerequisites
@@ -26,6 +26,7 @@ create with: bootstrap and db | initialize bootstrap and SQLAlchemy in your app
 create with: bootstrap,db,authentication | initialize bootstrap, SQLAlchemy and auth blueprnt in your app
 
 ### Disclaimer
-This script doesnt create a database for you ,it just installs the neccesary packages required to integrate a db seamlessly in the app
+ - This script creates flask using the `blueprints` structure
+ - This script doesnt create a database for you, it just installs the necessary packages required to integrate a db seamlessly in the app.
 
 ![Sample Structure](flaskStructure.png)
