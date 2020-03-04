@@ -6,13 +6,18 @@ mkdir $PROJECT_NAME
 
 cd $PROJECT_NAME || exit
 
+command_exists() {
+	command -v "$@" >/dev/null 2>&1
+}
+
 # Check if git is installed
-if command -v git ; then
+if ! command -v git | grep -q 'git' ; then
     echo "git is not installed and will not be initialized!"
 
     else
-      echo "initializing git and creating .gitignore"
   git init
+        echo "creating .gitignore"
+
   touch .gitignore
 cat >> .gitignore << EOF
 
@@ -133,6 +138,8 @@ virt/
 
 
 EOF
+  echo "creating .gitignore done"
+
 fi
 
 
@@ -435,7 +442,7 @@ do
     esac
 done
 
-if command -v python3 ; then
+if ! command -v python3 | grep -q 'python3'; then
     error "python does not exist. Cannot install requirements!"
 
     else
@@ -468,7 +475,7 @@ web: gunicorn manage:app
 EOF
 
 # Creating initial commit
-if command -v git ; then
+if ! command -v git | grep -q 'git'; then
     error "git is not installed! Initial commit will not be made!"
 
     else
