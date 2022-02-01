@@ -183,9 +183,9 @@ else
     touch README.md
     success "created README"
 
-    cat >> README.md << EOF
+    cat >> README.md << \EOF
 
-## Enter title here
+## $PROJECT_NAME
 ### Enter description here
 EOF
 fi
